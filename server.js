@@ -23,11 +23,16 @@ app.use(express.json());
 // Serve uploaded files statically
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
-const FRONTEND_DIR = path.join(process.cwd(), "..", "frontend");
+const FRONTEND_DIR = path.join(process.cwd(), "public");
 app.use(express.static(FRONTEND_DIR));
 
 app.get("/api/health", (req, res) => {
   res.json({ status: "ok" });
+});
+
+// Serve index.html for root
+app.get("/", (req, res) => {
+  res.sendFile(path.join(FRONTEND_DIR, "index.html"));
 });
 
 app.use("/api/auth", authRouter);
